@@ -8,35 +8,41 @@ from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 
-
-# This program requires LEGO EV3 MicroPython v2.0 or higher.
-# Click "Open user guide" on the EV3 extension tab for more information.
-
-
-# Create your objects here.
 ev3 = EV3Brick()
 
-motor_lavy = Motor(Port.B, positive_direction=Direction.COUNTERCLOCKWISE, gears=[8, 24])
-motor_pravy = Motor(Port.C,  positive_direction=Direction.COUNTERCLOCKWISE, gears=[8, 24])
-motor_lavy_maly = Motor(Port.D)
-motor_pravy_maly = Motor(Port.A)
-predny_senzor = InfraredSensor(Port.S2)
-lavy_senzor = UltrasonicSensor(Port.S1)
-pravy_senzor = UltrasonicSensor(Port.S4)
+#velke motory
+MOTOR_LAVY = Motor(Port.B, positive_direction=Direction.COUNTERCLOCKWISE, gears=[8, 24])
+MOTOR_PRAVY = Motor(Port.C,  positive_direction=Direction.COUNTERCLOCKWISE, gears=[8, 24])
+pohyb = DriveBase(MOTOR_PRAVY, MOTOR_LAVY, wheel_diameter = 45, axle_track = 50)
+#male motory
+MOTOR_MALY_PRAVY = Motor(Port.D)
+MOTOR_MALY_LAVY = Motor(Port.A)
+
+#senzory
+PREDNY_SENZOR =  InfraredSensor(Port.S3)
+
+LAVY_SENZOR = UltrasonicSensor(Port.S1)
+PRAVY_SENZOR = UltrasonicSensor(Port.S4)
+
+#xxx
 x = 0
 
 MAX_SPEED = 200
 MID_SPEED = 100
 LOW_SPEED = 50
 
-while x < 2:
-    motor_lavy.run_angle(Low_speed, 90, then = Stop.HOLD)
-    motor_pravy.run_angle(Low_speed, 90, then = Stop.HOLD)
-    time.sleep(2)
-    x += 1
+def start(): #start ako S
+    while True:
+        if (PREDNY_SENZOR.distance()) >= 50:
+            pohyb.drive(MID_SPEED, 20)
+            print(PREDNY_SENZOR.distance())
+        else:
+            print(PREDNY_SENZOR.distance())
+            pohyb.stop()
 
-ev3.speaker.beep(1000, 500)
 
+def main():
+    start()
 
-
-ev3.speaker.beep()
+if __name__ == "__main__":
+    main()
