@@ -24,7 +24,6 @@ PREDNY_SENZOR =  InfraredSensor(Port.S3)
 LAVY_SENZOR = UltrasonicSensor(Port.S1)
 PRAVY_SENZOR = UltrasonicSensor(Port.S4)
 
-#xxx
 x = 0
 
 MAX_SPEED = 200
