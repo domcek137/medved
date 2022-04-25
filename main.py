@@ -24,12 +24,11 @@ PREDNY_SENZOR =  InfraredSensor(Port.S3)
 LAVY_SENZOR = UltrasonicSensor(Port.S1)
 PRAVY_SENZOR = UltrasonicSensor(Port.S4)
 
-#ahoj slnko
 x = 0
 
 MAX_SPEED = 200
 MID_SPEED = 100
-LOW_SPEED = 500
+LOW_SPEED = 50
 
 def start(): #start ako S
     while True:
