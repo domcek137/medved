@@ -28,7 +28,7 @@ x = 0
 
 MAX_SPEED = 200
 MID_SPEED = 100
-LOW_SPEED = 50
+LOW_SPEED = 500
 
 def start(): #start ako S
     while True:
