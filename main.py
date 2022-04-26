@@ -24,20 +24,42 @@ PREDNY_SENZOR =  InfraredSensor(Port.S3)
 LAVY_SENZOR = UltrasonicSensor(Port.S1)
 PRAVY_SENZOR = UltrasonicSensor(Port.S4)
 
+#variables
+opakovanie = 0
 x = 0
 
+#konstanty
 MAX_SPEED = 200
 MID_SPEED = 100
 LOW_SPEED = 50
 
 def start(): #start ako S
-    while True:
+    if opakovanie <= 2:
         if (PREDNY_SENZOR.distance()) >= 50:
-            pohyb.drive(MID_SPEED, 20)
-            print(PREDNY_SENZOR.distance())
+            pohyb.drive(LOW_SPEED, 20)
+            print("rovno")
         else:
-            print(PREDNY_SENZOR.distance())
+            print("tocim vpravo")
             pohyb.stop()
+            #otoci sa do prava o 90 stupnov, treba doladit
+            pohyb.turn(90)
+            opakovanie += 1
+    elif opakovanie <= 4:
+        if (PREDNY_SENZOR.distance()) >= 50:
+            pohyb.drive(LOW_SPEED, 20)
+            print("rovno")
+        else:
+            print("tocim vlavo")
+            pohyb.stop()
+            #otoci sa do lava o 90 stupnov, treba doladit
+            pohyb.turn(90)
+            opakovanie += 1
+    else:
+        (PREDNY_SENZOR.distance()) >= 50:
+            pohyb.drive(LOW_SPEED, 20)
+            print("rovno")
+            #tu by malo byt "ist popri stene senzorom" ale provizorne toto
+
 
 
 def main():
