@@ -38,7 +38,7 @@ def start(): #start ako S
         if (PREDNY_SENZOR.distance()) >= 50:
             pohyb.drive(LOW_SPEED, 20)
             print("rovno")
-        else:
+        else:                                   
             print("tocim vpravo")
             pohyb.stop()
             #otoci sa do prava o 90 stupnov, treba doladit
@@ -46,7 +46,7 @@ def start(): #start ako S
             opakovanie += 1
     elif opakovanie <= 4:
         if (PREDNY_SENZOR.distance()) >= 50:
-            pohyb.drive(LOW_SPEED, 20)
+            pohyb.drive(LOW_SPEED, 20)                  #test
             print("rovno")
         else:
             print("tocim vlavo")
