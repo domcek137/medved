@@ -1,4 +1,5 @@
 #!/usr/bin/env pybricks-micropython
+import time
 from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
                                  InfraredSensor, UltrasonicSensor, GyroSensor)
@@ -28,59 +29,11 @@ opakovanie = 0
 x = 0
 
 #konstanty
-MAX_SPEED = 100
-MID_SPEED = 75
+MAX_SPEED = 200
+MID_SPEED = 100
 LOW_SPEED = 50
 
-def start(): #start ako S
-    global opakovanie
-while opakovanie < 2:
+while True:
+    print (PREDNY_SENZOR.distance())
+    time.sleep(0.5)
     pohyb.drive(LOW_SPEED, 0)
-
-    while PREDNY_SENZOR.distance() > 40:
-        wait(10)
-
-    pohyb.stop()
-    wait(500)
-    
-    pohyb.turn(55)
-
-    opakovanie += 1
-
-while opakovanie < 4:
-    pohyb.drive(LOW_SPEED, 0)
-
-    while PREDNY_SENZOR.distance() > 40:
-        wait(10)
-
-    pohyb.stop()
-    wait(500)
-    
-    pohyb.turn(-55)
-
-    opakovanie += 1
-
-def stena():
-    pohyb.turn(10)
-    pohyb.drive(MAX_SPEED, 0)
-    wait(2000)
-    pohyb.drive(MID_SPEED, 0)
-
-
-    while PREDNY_SENZOR.distance() > 40:
-        print(PREDNY_SENZOR.distance())
-
-def napravenie():
-    pohyb.straight(-10)
-    pohyb.turn(-55)
-    pohyb.straight(-10)
-
-
-
-def main():
-    start()
-    stena()
-    napravenie()
-
-if __name__ == "__main__":
-    main()
