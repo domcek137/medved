@@ -32,6 +32,16 @@ MAX_SPEED = 100
 MID_SPEED = 75
 LOW_SPEED = 50
 
+def radlica_closed():
+    MOTOR_MALY_LAVY.run_target(LOW_SPEED, 5, then=Stop.HOLD, wait=False)
+    MOTOR_MALY_PRAVY.run_target(LOW_SPEED, -5, then=Stop.HOLD, wait=False)
+
+def radlica_opened():
+    MOTOR_MALY_LAVY.run_target(LOW_SPEED, -5, then=Stop.HOLD, wait=False)
+    MOTOR_MALY_PRAVY.run_target(LOW_SPEED, 5, then=Stop.HOLD, wait=False)
+
+
+
 def start(): #start ako S
     global opakovanie
 while opakovanie < 2:
@@ -42,9 +52,7 @@ while opakovanie < 2:
 
     pohyb.stop()
     wait(500)
-    
     pohyb.turn(55)
-
     opakovanie += 1
 
 while opakovanie < 4:
@@ -55,32 +63,45 @@ while opakovanie < 4:
 
     pohyb.stop()
     wait(500)
-    
     pohyb.turn(-55)
-
     opakovanie += 1
 
 def stena():
     pohyb.turn(10)
     pohyb.drive(MAX_SPEED, 0)
-    wait(2000)
-    pohyb.drive(MID_SPEED, 0)
+    wait(3500)
+    pohyb.drive(LOW_SPEED, 0)
 
 
     while PREDNY_SENZOR.distance() > 40:
         print(PREDNY_SENZOR.distance())
 
+    pohyb.stop()
+
 def napravenie():
-    pohyb.straight(-10)
+    pohyb.straight(-50)
     pohyb.turn(-55)
     pohyb.straight(-10)
+
+def hladanie():
+    pohyb.straight(10)
+    pohyb.turn(5)
+    if PREDNY_SENZOR != 30:
+        pohyb.drive(LOW_SPEED, -100)
+    else:
+        pohyb.stop()
+    
 
 
 
 def main():
-    start()
-    stena()
-    napravenie()
+    #start()
+    #stena()
+    #napravenie()
+    #hladanie()
+    radlica_opened()
+    wait(5000)
+    radlica_closed()
 
 if __name__ == "__main__":
     main()
