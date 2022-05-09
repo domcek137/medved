@@ -1,4 +1,5 @@
 #!/usr/bin/env pybricks-micropython
+import operator
 from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
                                  InfraredSensor, UltrasonicSensor, GyroSensor)
@@ -80,7 +81,7 @@ def hladanie():
     opakovanie = 0
     radlica_opened()
     pohyb.turn(30)
-    while opakovanie <= 1:
+    while opakovanie <= 1: 
         if PREDNY_SENZOR.distance() > 40 :
             pohyb.drive(0.5, -100)
         elif PREDNY_SENZOR.distance() <= 40:
@@ -91,9 +92,34 @@ def hladanie():
             else:
                 print(PREDNY_SENZOR.distance())
         else:
-            print("v riti")       
-     
-    
+            print("v riti")  
+
+def kde_domov_muj():
+    pohyb.drive(-MAX_SPEED,  0)
+    wait(3500)
+    pohyb.stop()
+    pohyb.straight(15)
+    pohyb.turn(-55)
+
+def jazda_stena(relate):
+    l_hodnota_senzora = LAVY_SENZOR.distance()
+    while relate(l_hodnota_senzora, 200) and opakovanie == 0:
+        if LAVY_SENZOR.distance() < 100:
+            print("lavy {l_h_s}".format(l_h_s = l_hodnota_senzora))
+            pohyb.drive(LOW_SPEED, 25)
+        elif LAVY_SENZOR.distance() == 100:
+            pohyb.drive(LOW_SPEED, 0)
+        else:
+            pohyb.drive(LOW_SPEED, -25)
+            p_hodnota_senzora = PRAVY_SENZOR.distance()
+            #print("lavy {p_h_s}".format(p_h_s = p_hodnota_senzora)) 
+    opakovanie += 1
+                        
+
+def pri_stene():
+    global opakovanie
+    opakovanie = 0
+    jazda_stena(operator.gt)
     
 def radlica_closed():
     MOTOR_MALY_LAVY.run_target(1000, -80, then=Stop.HOLD, wait=False)
@@ -105,12 +131,19 @@ def radlica_opened():
 
 
 def main():
+    '''
     start()
     stena()
     napravenie()
     wait(1000)
     hladanie()
     wait(1000)
+    kde_domov_muj()
+    '''
+    pri_stene()
 
 if __name__ == "__main__":
     main()
+
+
+#toto pisal adam
