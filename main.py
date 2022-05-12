@@ -102,24 +102,33 @@ def kde_domov_muj():
     pohyb.turn(-55)
 
 def jazda_stena(relate):
-    l_hodnota_senzora = LAVY_SENZOR.distance()
-    while relate(l_hodnota_senzora, 200) and opakovanie == 0:
+    global opakovanie
+    #r_hodnota_senzora = PRAVY_SENZOR.distance()
+    while relate(PRAVY_SENZOR.distance() , 200): 
+        print(PRAVY_SENZOR.distance())       #r_hodnota_senzora
         if LAVY_SENZOR.distance() < 100:
-            print("lavy {l_h_s}".format(l_h_s = l_hodnota_senzora))
+            #print("pravy {r_h_s}".format(r_h_s = r_hodnota_senzora))
             pohyb.drive(LOW_SPEED, 25)
         elif LAVY_SENZOR.distance() == 100:
             pohyb.drive(LOW_SPEED, 0)
         else:
             pohyb.drive(LOW_SPEED, -25)
-            p_hodnota_senzora = PRAVY_SENZOR.distance()
+            #p_hodnota_senzora = PRAVY_SENZOR.distance()
             #print("lavy {p_h_s}".format(p_h_s = p_hodnota_senzora)) 
     opakovanie += 1
+    pri_stene()
+
+    
                         
 
 def pri_stene():
     global opakovanie
-    opakovanie = 0
-    jazda_stena(operator.gt)
+    if opakovanie == 0:
+        jazda_stena(operator.gt)
+    elif opakovanie == 1:
+        jazda_stena(operator.lt)
+    else:
+        print("malo by to fungovat")
     
 def radlica_closed():
     MOTOR_MALY_LAVY.run_target(1000, -80, then=Stop.HOLD, wait=False)
