@@ -26,6 +26,7 @@ PRAVY_SENZOR = UltrasonicSensor(Port.S4)
 
 #variables
 opakovanie = 0
+koniec = 0
 x = 0
 
 #konstanty
@@ -60,7 +61,7 @@ def start(): #start ako S
 
 def stena():
     pohyb.turn(10)
-    pohyb.drive(MAX_SPEED, 0)
+    pohyb.drive(MAX_SPEED, 2)
     wait(3500)
     pohyb.drive(LOW_SPEED, 0)
 
@@ -73,28 +74,33 @@ def stena():
 def napravenie():
     pohyb.straight(-50)
     pohyb.turn(-55)
-    pohyb.straight(-15)
+    pohyb.straight(-25)
     pohyb.straight(50)
 
 def hladanie():
-    global opakovanie
-    opakovanie = 0
+    global koniec
+    koniec = 0
     radlica_opened()
     pohyb.turn(30)
-    while opakovanie <= 1: 
+    while koniec <= 1: 
         if PREDNY_SENZOR.distance() > 40 :
-            pohyb.drive(0.5, -100)
+            pohyb.drive(1, -50)
         elif PREDNY_SENZOR.distance() <= 40:
-            pohyb.drive(LOW_SPEED, 0)
-            if PREDNY_SENZOR.distance() <= 10 :
-                radlica_closed()
-                opakovanie += 1
-            else:
-                print(PREDNY_SENZOR.distance())
+            pohyb.turn(5)
+            while PREDNY_SENZOR.distance() <= 40:
+                pohyb.drive(LOW_SPEED, 0)
+                if PREDNY_SENZOR.distance() <= 10 :
+                    radlica_closed()
+                    koniec += 1
+                    break
+                else:
+                    print(PREDNY_SENZOR.distance())
         else:
             print("v riti")  
 
 def kde_domov_muj():
+    global opakovanie
+    opakovanie = 0
     pohyb.drive(-MAX_SPEED,  0)
     wait(3500)
     pohyb.stop()
@@ -129,6 +135,11 @@ def pri_stene():
         jazda_stena(operator.lt)
     else:
         print("malo by to fungovat")
+
+def inverted_S():
+    while PRAVY_SENZOR.distance() > 300 :
+        print(PRAVY_SENZOR.distance())
+        pohyb.drive(LOW_SPEED, 50)
     
 def radlica_closed():
     MOTOR_MALY_LAVY.run_target(1000, -80, then=Stop.HOLD, wait=False)
@@ -140,16 +151,18 @@ def radlica_opened():
 
 
 def main():
-    '''
+    
     start()
     stena()
     napravenie()
     wait(1000)
     hladanie()
     wait(1000)
-    kde_domov_muj()
-    '''
+    kde_domov_muj() 
     pri_stene()
+    #po tadialto funguje
+    inverted_S()
+
 
 if __name__ == "__main__":
     main()
