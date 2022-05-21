@@ -1,5 +1,6 @@
 #!/usr/bin/env pybricks-micropython
 import operator
+import time
 from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
                                  InfraredSensor, UltrasonicSensor, GyroSensor)
@@ -23,6 +24,9 @@ PREDNY_SENZOR =  InfraredSensor(Port.S3)
 
 LAVY_SENZOR = UltrasonicSensor(Port.S1)
 PRAVY_SENZOR = UltrasonicSensor(Port.S4)
+
+#stopwatch
+cas = StopWatch()
 
 #variables
 opakovanie = 0
@@ -72,17 +76,20 @@ def stena():
     pohyb.stop()
 
 def napravenie():
-    pohyb.straight(-50)
+    pohyb.straight(-45)
     pohyb.turn(-55)
-    pohyb.straight(-25)
-    pohyb.straight(50)
+    cas.reset()
+    while cas.time() < 2000 :
+        pohyb.drive(-20, 0)
+    pohyb.stop()     
+    pohyb.straight(45)
 
 def hladanie():
     global koniec
     koniec = 0
     radlica_opened()
     pohyb.turn(30)
-    while koniec <= 1: 
+    while koniec == 0: 
         if PREDNY_SENZOR.distance() > 40 :
             pohyb.drive(1, -50)
         elif PREDNY_SENZOR.distance() <= 40:
@@ -102,25 +109,21 @@ def kde_domov_muj():
     global opakovanie
     opakovanie = 0
     pohyb.drive(-MAX_SPEED,  0)
-    wait(3500)
+    wait(4000)
     pohyb.stop()
     pohyb.straight(15)
     pohyb.turn(-55)
 
 def jazda_stena(relate):
     global opakovanie
-    #r_hodnota_senzora = PRAVY_SENZOR.distance()
-    while relate(PRAVY_SENZOR.distance() , 200): 
-        print(PRAVY_SENZOR.distance())       #r_hodnota_senzora
+    while relate(PRAVY_SENZOR.distance() , 200):
+        print(PRAVY_SENZOR.distance()) 
         if LAVY_SENZOR.distance() < 100:
-            #print("pravy {r_h_s}".format(r_h_s = r_hodnota_senzora))
             pohyb.drive(LOW_SPEED, 25)
         elif LAVY_SENZOR.distance() == 100:
             pohyb.drive(LOW_SPEED, 0)
         else:
-            pohyb.drive(LOW_SPEED, -25)
-            #p_hodnota_senzora = PRAVY_SENZOR.distance()
-            #print("lavy {p_h_s}".format(p_h_s = p_hodnota_senzora)) 
+            pohyb.drive(LOW_SPEED, -25) 
     opakovanie += 1
     pri_stene()
 
@@ -137,9 +140,22 @@ def pri_stene():
         print("malo by to fungovat")
 
 def inverted_S():
-    while PRAVY_SENZOR.distance() > 300 :
-        print(PRAVY_SENZOR.distance())
-        pohyb.drive(LOW_SPEED, 50)
+    global x
+    while x == 0 :
+        if PRAVY_SENZOR.distance() > 300 :
+            pohyb.drive(MAX_SPEED, 30)
+        elif PRAVY_SENZOR.distance() < 300 :
+            print(PRAVY_SENZOR.distance())
+            if LAVY_SENZOR.distance() < 400 :
+                pohyb.drive(MAX_SPEED, 15)
+            elif LAVY_SENZOR.distance() > 400:
+                x = 1
+                print("mejbi hotovo")
+    while x == 1:
+        pohyb.drive(MAX_SPEED, -45)
+        
+        
+        
     
 def radlica_closed():
     MOTOR_MALY_LAVY.run_target(1000, -80, then=Stop.HOLD, wait=False)
@@ -151,13 +167,11 @@ def radlica_opened():
 
 
 def main():
-    
     start()
     stena()
     napravenie()
     wait(1000)
     hladanie()
-    wait(1000)
     kde_domov_muj() 
     pri_stene()
     #po tadialto funguje
@@ -168,4 +182,4 @@ if __name__ == "__main__":
     main()
 
 
-#toto pisal dominik 
+#toto pisal adam a dominik <3
