@@ -40,6 +40,7 @@ LOW_SPEED = 50
 
 
 def start(): #start ako S
+    print("start")
     global opakovanie
     while opakovanie < 2:
         pohyb.drive(LOW_SPEED, 0)
@@ -64,6 +65,7 @@ def start(): #start ako S
         opakovanie += 1
 
 def stena():
+    print("stena")
     pohyb.turn(10)
     pohyb.drive(MAX_SPEED, 2)
     wait(3500)
@@ -76,6 +78,7 @@ def stena():
     pohyb.stop()
 
 def napravenie():
+    print("napravenie")
     pohyb.straight(-45)
     pohyb.turn(-55)
     cas.reset()
@@ -85,6 +88,7 @@ def napravenie():
     pohyb.straight(45)
 
 def hladanie():
+    print("hladanie")
     global koniec
     koniec = 0
     radlica_opened()
@@ -106,6 +110,7 @@ def hladanie():
             print("v riti")  
 
 def kde_domov_muj():
+    print("kde domov muj")
     global opakovanie
     opakovanie = 0
     pohyb.drive(-MAX_SPEED,  0)
@@ -115,6 +120,7 @@ def kde_domov_muj():
     pohyb.turn(-55)
 
 def jazda_stena(relate):
+    print("jazda stena")
     global opakovanie
     while relate(PRAVY_SENZOR.distance() , 200):
         print(PRAVY_SENZOR.distance()) 
@@ -131,6 +137,7 @@ def jazda_stena(relate):
                         
 
 def pri_stene():
+    print("pri stene")
     global opakovanie
     if opakovanie == 0:
         jazda_stena(operator.gt)
@@ -140,14 +147,15 @@ def pri_stene():
         print("malo by to fungovat")
 
 def inverted_S():
+    print("inverted S")
     global x
     while x == 0 :
         if PRAVY_SENZOR.distance() > 300 :
-            pohyb.drive(MAX_SPEED, 30)
+            pohyb.drive(MAX_SPEED, 32.5)
         elif PRAVY_SENZOR.distance() < 300 :
             print(PRAVY_SENZOR.distance())
             if LAVY_SENZOR.distance() < 400 :
-                pohyb.drive(MAX_SPEED, 15)
+                pohyb.drive(MAX_SPEED, 15.5)
             elif LAVY_SENZOR.distance() > 400:
                 x = 1
                 print("mejbi hotovo")
@@ -158,10 +166,12 @@ def inverted_S():
         
     
 def radlica_closed():
+    print("radlica closed")
     MOTOR_MALY_LAVY.run_target(1000, -80, then=Stop.HOLD, wait=False)
     MOTOR_MALY_PRAVY.run_target(1000, 80, then=Stop.HOLD, wait=False)
 
 def radlica_opened():
+    print("radlica")
     MOTOR_MALY_LAVY.run_target(1000, 80, then=Stop.HOLD, wait=False)
     MOTOR_MALY_PRAVY.run_target(1000, -80, then=Stop.HOLD, wait=False)
 
