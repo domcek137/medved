@@ -44,10 +44,9 @@ def start(): #start ako S
     global opakovanie
     while opakovanie < 2:
         pohyb.drive(LOW_SPEED, 0)
-
         while PREDNY_SENZOR.distance() > 40:
             wait(10)
-
+    
         pohyb.stop()
         wait(500)
         pohyb.turn(55)
@@ -68,12 +67,10 @@ def stena():
     print("stena")
     pohyb.turn(10)
     pohyb.drive(MAX_SPEED, 2)
-    wait(3500)
-    pohyb.drive(LOW_SPEED, 0)
 
 
     while PREDNY_SENZOR.distance() > 40:
-        print(PREDNY_SENZOR.distance())
+        wait(10)
 
     pohyb.stop()
 
@@ -95,12 +92,16 @@ def hladanie():
     pohyb.turn(30)
     while koniec == 0: 
         if PREDNY_SENZOR.distance() > 40 :
+            wait(10)
             pohyb.drive(1, -50)
         elif PREDNY_SENZOR.distance() <= 40:
+            wait(10)
             pohyb.turn(5)
             while PREDNY_SENZOR.distance() <= 40:
+                wait(10)
                 pohyb.drive(LOW_SPEED, 0)
                 if PREDNY_SENZOR.distance() <= 10 :
+                    wait(10)
                     radlica_closed()
                     koniec += 1
                     break
@@ -123,10 +124,13 @@ def jazda_stena(relate):
     print("jazda stena")
     global opakovanie
     while relate(PRAVY_SENZOR.distance() , 200):
+        wait(10)
         print(PRAVY_SENZOR.distance()) 
         if LAVY_SENZOR.distance() < 100:
+            wait(10)
             pohyb.drive(LOW_SPEED, 25)
         elif LAVY_SENZOR.distance() == 100:
+            wait(10)
             pohyb.drive(LOW_SPEED, 0)
         else:
             pohyb.drive(LOW_SPEED, -25) 
@@ -134,8 +138,6 @@ def jazda_stena(relate):
     pri_stene()
 
     
-                        
-
 def pri_stene():
     print("pri stene")
     global opakovanie
@@ -151,16 +153,25 @@ def inverted_S():
     global x
     while x == 0 :
         if PRAVY_SENZOR.distance() > 300 :
-            pohyb.drive(MAX_SPEED, 32.5)
-        elif PRAVY_SENZOR.distance() < 300 :
+            wait(10)
+            pohyb.drive(MAX_SPEED, 31.5)
+        elif PRAVY_SENZOR.distance() < 300 or LAVY_SENZOR.distance() < 100:
+            wait(10)
+            pohyb.drive(MAX_SPEED, 0)
             print(PRAVY_SENZOR.distance())
             if LAVY_SENZOR.distance() < 400 :
-                pohyb.drive(MAX_SPEED, 15.5)
+                wait(10)
+                pohyb.drive(MAX_SPEED, 12.5)
             elif LAVY_SENZOR.distance() > 400:
+                wait(10)
                 x = 1
                 print("mejbi hotovo")
     while x == 1:
-        pohyb.drive(MAX_SPEED, -45)
+        if PRAVY_SENZOR.distance() < 100 :
+            wait(10)
+            pohyb.drive(MAX_SPEED, 0)
+        else:
+            pohyb.drive(MAX_SPEED, -45)
         
         
         
