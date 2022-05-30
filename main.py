@@ -32,6 +32,7 @@ cas = StopWatch()
 opakovanie = 0
 koniec = 0
 x = 0
+zemiak = 0
 
 #konstanty
 MAX_SPEED = 100
@@ -67,6 +68,8 @@ def stena():
     print("stena")
     pohyb.turn(10)
     pohyb.drive(MAX_SPEED, 2)
+    wait(3500)
+    pohyb.drive(LOW_SPEED, 2)
 
 
     while PREDNY_SENZOR.distance() > 40:
@@ -84,24 +87,26 @@ def napravenie():
     pohyb.stop()     
     pohyb.straight(45)
 
-def hladanie():
-    print("hladanie")
+def hladanie_jadro():
+    pohyb.turn(45)
+    pohyb.reset()
+    global zemiak 
     global koniec
     koniec = 0
-    radlica_opened()
-    pohyb.turn(30)
-    while koniec == 0: 
+    while pohyb.angle() >= -90 and koniec == 0:
         if PREDNY_SENZOR.distance() > 40 :
             wait(10)
             pohyb.drive(1, -50)
         elif PREDNY_SENZOR.distance() <= 40:
             wait(10)
-            pohyb.turn(5)
             while PREDNY_SENZOR.distance() <= 40:
                 wait(10)
+                zemiak = pohyb.angle()
+                print(zemiak)
                 pohyb.drive(LOW_SPEED, 0)
                 if PREDNY_SENZOR.distance() <= 10 :
                     wait(10)
+                    pohyb.straight(20)
                     radlica_closed()
                     koniec += 1
                     break
@@ -110,10 +115,22 @@ def hladanie():
         else:
             print("v riti")  
 
+
+def hladanie():
+    print("hladanie")
+    radlica_opened()
+    hladanie_jadro()
+    pohyb.turn(45)
+    pohyb.straight(40)
+    hladanie_jadro()
+
 def kde_domov_muj():
     print("kde domov muj")
     global opakovanie
+    global zemiak
     opakovanie = 0
+    zemiak = (zemiak + 45) * (-1)
+    pohyb.turn(zemiak)
     pohyb.drive(-MAX_SPEED,  0)
     wait(4000)
     pohyb.stop()
@@ -154,7 +171,7 @@ def inverted_S():
     while x == 0 :
         if PRAVY_SENZOR.distance() > 300 :
             wait(10)
-            pohyb.drive(MAX_SPEED, 31.5)
+            pohyb.drive(MAX_SPEED, 40.5)
         elif PRAVY_SENZOR.distance() < 300 or LAVY_SENZOR.distance() < 100:
             wait(10)
             pohyb.drive(MAX_SPEED, 0)
@@ -171,7 +188,7 @@ def inverted_S():
             wait(10)
             pohyb.drive(MAX_SPEED, 0)
         else:
-            pohyb.drive(MAX_SPEED, -45)
+            pohyb.drive(MAX_SPEED, -40)
         
         
         
