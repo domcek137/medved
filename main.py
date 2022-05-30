@@ -29,6 +29,7 @@ PRAVY_SENZOR = UltrasonicSensor(Port.S4)
 cas = StopWatch()
 
 #variables
+strnast = 0
 opakovanie = 0
 koniec = 0
 x = 0
@@ -88,9 +89,12 @@ def napravenie():
     pohyb.straight(45)
 
 def hladanie_jadro():
+    print("hladanie_jadro")
+    radlica_opened()
     pohyb.turn(45)
     pohyb.reset()
-    global zemiak 
+    global zemiak
+    global strnast 
     global koniec
     koniec = 0
     while pohyb.angle() >= -90 and koniec == 0:
@@ -113,16 +117,22 @@ def hladanie_jadro():
                 else:
                     print(PREDNY_SENZOR.distance())
         else:
-            print("v riti")  
+            print("v riti") 
+    strnast += 1
+    hladanie()
 
 
 def hladanie():
     print("hladanie")
-    radlica_opened()
-    hladanie_jadro()
-    pohyb.turn(45)
-    pohyb.straight(40)
-    hladanie_jadro()
+    global strnast
+    global koniec
+    print(strnast)
+    if strnast == 0:
+        hladanie_jadro()
+    elif strnast == 1 and koniec == 0:
+        pohyb.turn(45)
+        pohyb.straight(40)
+        hladanie_jadro()
 
 def kde_domov_muj():
     print("kde domov muj")
