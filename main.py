@@ -185,28 +185,68 @@ def pri_stene():
 def inverted_S():
     print("inverted S")
     global cas2
-    global x
+    x = 0
     while x == 0 :
         if PRAVY_SENZOR.distance() > 250 :
-            wait(10)
-            pohyb.drive(MID_SPEED, 52 )
-            print(PRAVY_SENZOR.distance())
-        elif PRAVY_SENZOR.distance() < 250:
-            wait(10)
-            print(PRAVY_SENZOR.distance())
-            pohyb.drive(MID_SPEED, -5)
-            if LAVY_SENZOR.distance() > 400:
-                wait(10)
-                print(PRAVY_SENZOR.distance())
-                cas2.reset()
-                x = 1
-                print("mejbi hotovo")
-    while x == 1:
-        if PRAVY_SENZOR.distance() < 100 and cas2.time() > 1000:
-            wait(10)
-            pohyb.drive(MAX_SPEED, 0)
-        else:
-            pohyb.drive(MID_SPEED, -52)
+            pohyb.straight(40)
+            pohyb.turn(50)
+            pohyb.drive(-LOW_SPEED,  0)
+            
+            wait(1000)
+            pohyb.stop()
+            pohyb.straight(75)
+            x += 1
+
+    pohyb.turn(60)
+    pohyb.drive(-LOW_SPEED,  0)
+    
+    wait(1000)
+    pohyb.stop()
+    pohyb.straight(120)
+
+    pohyb.turn(-50)
+    pohyb.drive(-LOW_SPEED,  0)
+    
+    wait(1000)
+    pohyb.stop()
+    pohyb.straight(70)
+
+    pohyb.turn(-50)
+    pohyb.drive(-LOW_SPEED,  0)
+    wait(1000)
+    pohyb.stop()
+    pohyb.straight(70)
+
+    wait(5000)
+
+
+
+
+
+
+
+
+
+
+    #         wait(10)
+    #         pohyb.drive(MID_SPEED, 52 )
+    #         print(PRAVY_SENZOR.distance())
+    #     elif PRAVY_SENZOR.distance() < 250:
+    #         wait(10)
+    #         print(PRAVY_SENZOR.distance())
+    #         pohyb.drive(MID_SPEED, -5)
+    #         if LAVY_SENZOR.distance() > 400:
+    #             wait(10)
+    #             print(PRAVY_SENZOR.distance())
+    #             cas2.reset()
+    #             x = 1
+    #             print("mejbi hotovo")
+    # while x == 1:
+    #     if PRAVY_SENZOR.distance() < 100 and cas2.time() > 1000:
+    #         wait(10)
+    #         pohyb.drive(MAX_SPEED, 0)
+    #     else:
+    #         pohyb.drive(MID_SPEED, -52)
         
         
         
@@ -223,12 +263,12 @@ def radlica_opened():
 
 
 def main():
-    start()
-    stena()
-    napravenie()
-    wait(1000)
-    hladanie()
-    kde_domov_muj() 
+    # start()
+    # stena()
+    # napravenie()
+    # wait(1000)
+    # hladanie()
+    # kde_domov_muj() 
     pri_stene()
     inverted_S()
 
