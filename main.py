@@ -22,11 +22,16 @@ MOTOR_MALY_LAVY = Motor(Port.A, positive_direction=Direction.COUNTERCLOCKWISE, g
 #senzory
 PREDNY_SENZOR =  InfraredSensor(Port.S3)
 
+#STOP_TLACITKO = TouchSensor(Port.S2)
+
 LAVY_SENZOR = UltrasonicSensor(Port.S1)
 PRAVY_SENZOR = UltrasonicSensor(Port.S4)
 
 #stopwatch
 cas = StopWatch()
+cas2 = StopWatch()
+cas3 = StopWatch()
+cas4 = StopWatch()
 
 #variables
 strnast = 0
@@ -46,18 +51,18 @@ def start(): #start ako S
     global opakovanie
     while opakovanie < 2:
         pohyb.drive(LOW_SPEED, 0)
-        while PREDNY_SENZOR.distance() > 40:
+        while PREDNY_SENZOR.distance() > 30:
             wait(10)
     
         pohyb.stop()
         wait(500)
-        pohyb.turn(55)
+        pohyb.turn(50)
         opakovanie += 1
 
     while opakovanie < 4:
         pohyb.drive(LOW_SPEED, 0)
 
-        while PREDNY_SENZOR.distance() > 40:
+        while PREDNY_SENZOR.distance() > 30:
             wait(10)
 
         pohyb.stop()
@@ -67,20 +72,20 @@ def start(): #start ako S
 
 def stena():
     print("stena")
-    pohyb.turn(10)
+    pohyb.turn(5)
     pohyb.drive(MAX_SPEED, 2)
     wait(3500)
     pohyb.drive(LOW_SPEED, 2)
 
 
-    while PREDNY_SENZOR.distance() > 40:
+    while PREDNY_SENZOR.distance() > 30:
         wait(10)
 
     pohyb.stop()
 
 def napravenie():
     print("napravenie")
-    pohyb.straight(-45)
+    pohyb.straight(-50)
     pohyb.turn(-55)
     cas.reset()
     while cas.time() < 2000 :
@@ -110,7 +115,8 @@ def hladanie_jadro():
                 pohyb.drive(LOW_SPEED, 0)
                 if PREDNY_SENZOR.distance() <= 10 :
                     wait(10)
-                    pohyb.straight(20)
+                    pohyb.drive(LOW_SPEED, 0)
+                    wait(500)
                     radlica_closed()
                     koniec += 1
                     break
@@ -150,7 +156,7 @@ def kde_domov_muj():
 def jazda_stena(relate):
     print("jazda stena")
     global opakovanie
-    while relate(PRAVY_SENZOR.distance() , 200):
+    while relate(PRAVY_SENZOR.distance() , 300):
         wait(10)
         print(PRAVY_SENZOR.distance()) 
         if LAVY_SENZOR.distance() < 100:
@@ -173,32 +179,34 @@ def pri_stene():
     elif opakovanie == 1:
         jazda_stena(operator.lt)
     else:
+        pohyb.stop()
         print("malo by to fungovat")
 
 def inverted_S():
     print("inverted S")
+    global cas2
     global x
     while x == 0 :
-        if PRAVY_SENZOR.distance() > 300 :
+        if PRAVY_SENZOR.distance() > 250 :
             wait(10)
-            pohyb.drive(MAX_SPEED, 40.5)
-        elif PRAVY_SENZOR.distance() < 300 or LAVY_SENZOR.distance() < 100:
-            wait(10)
-            pohyb.drive(MAX_SPEED, 0)
+            pohyb.drive(MID_SPEED, 52 )
             print(PRAVY_SENZOR.distance())
-            if LAVY_SENZOR.distance() < 400 :
+        elif PRAVY_SENZOR.distance() < 250:
+            wait(10)
+            print(PRAVY_SENZOR.distance())
+            pohyb.drive(MID_SPEED, -5)
+            if LAVY_SENZOR.distance() > 400:
                 wait(10)
-                pohyb.drive(MAX_SPEED, 12.5)
-            elif LAVY_SENZOR.distance() > 400:
-                wait(10)
+                print(PRAVY_SENZOR.distance())
+                cas2.reset()
                 x = 1
                 print("mejbi hotovo")
     while x == 1:
-        if PRAVY_SENZOR.distance() < 100 :
+        if PRAVY_SENZOR.distance() < 100 and cas2.time() > 1000:
             wait(10)
             pohyb.drive(MAX_SPEED, 0)
         else:
-            pohyb.drive(MAX_SPEED, -40)
+            pohyb.drive(MID_SPEED, -52)
         
         
         
@@ -222,12 +230,11 @@ def main():
     hladanie()
     kde_domov_muj() 
     pri_stene()
-    #po tadialto funguje
     inverted_S()
 
 
 if __name__ == "__main__":
     main()
+    
 
-
-#toto pisal adam a dominik <3
+#toto pisal dominik + adam <3
