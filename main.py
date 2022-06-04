@@ -211,11 +211,11 @@ def inverted_S():
     pohyb.stop()
     pohyb.straight(70)
 
-    pohyb.turn(-50)
+    pohyb.turn(-55)
     pohyb.drive(-LOW_SPEED,  0)
     wait(1000)
     pohyb.stop()
-    pohyb.straight(70)
+    pohyb.drive(MAX_SPEED, 5)
 
     wait(5000)
 
@@ -263,12 +263,12 @@ def radlica_opened():
 
 
 def main():
-    # start()
-    # stena()
-    # napravenie()
-    # wait(1000)
-    # hladanie()
-    # kde_domov_muj() 
+    start()
+    stena()
+    napravenie()
+    wait(1000)
+    hladanie()
+    kde_domov_muj() 
     pri_stene()
     inverted_S()
 
