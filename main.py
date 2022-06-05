@@ -55,7 +55,7 @@ def start(): #start ako S
             wait(10)
     
         pohyb.stop()
-        wait(500)
+        #wait(500)
         pohyb.turn(50)
         opakovanie += 1
 
@@ -66,7 +66,7 @@ def start(): #start ako S
             wait(10)
 
         pohyb.stop()
-        wait(500)
+        #wait(500)
         pohyb.turn(-55)
         opakovanie += 1
 
@@ -190,29 +190,29 @@ def inverted_S():
         if PRAVY_SENZOR.distance() > 250 :
             pohyb.straight(40)
             pohyb.turn(50)
-            pohyb.drive(-LOW_SPEED,  0)
+            pohyb.drive(-MAX_SPEED,  0)
             
             wait(1000)
             pohyb.stop()
             pohyb.straight(75)
             x += 1
 
-    pohyb.turn(60)
-    pohyb.drive(-LOW_SPEED,  0)
+    pohyb.turn(65)
+    pohyb.drive(-MAX_SPEED,  0)
     
     wait(1000)
     pohyb.stop()
     pohyb.straight(120)
 
     pohyb.turn(-50)
-    pohyb.drive(-LOW_SPEED,  0)
+    pohyb.drive(-MAX_SPEED,  0)
     
     wait(1000)
     pohyb.stop()
     pohyb.straight(70)
 
-    pohyb.turn(-55)
-    pohyb.drive(-LOW_SPEED,  0)
+    pohyb.turn(-60)
+    pohyb.drive(-MAX_SPEED,  0)
     wait(1000)
     pohyb.stop()
     pohyb.drive(MAX_SPEED, 5)
