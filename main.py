@@ -27,6 +27,8 @@ PREDNY_SENZOR =  InfraredSensor(Port.S3)
 LAVY_SENZOR = UltrasonicSensor(Port.S1)
 PRAVY_SENZOR = UltrasonicSensor(Port.S4)
 
+
+
 #stopwatch
 cas = StopWatch()
 cas2 = StopWatch()
@@ -67,7 +69,7 @@ def start(): #start ako S
 
         pohyb.stop()
         #wait(500)
-        pohyb.turn(-55)
+        pohyb.turn(-50)
         opakovanie += 1
 
 def stena():
@@ -99,8 +101,10 @@ def hladanie_jadro():
     pohyb.turn(45)
     pohyb.reset()
     global zemiak
+    global cas3
     global strnast 
     global koniec
+    T = 0
     koniec = 0
     while pohyb.angle() >= -90 and koniec == 0:
         if PREDNY_SENZOR.distance() > 40 :
@@ -113,12 +117,18 @@ def hladanie_jadro():
                 zemiak = pohyb.angle()
                 print(zemiak)
                 pohyb.drive(LOW_SPEED, 0)
-                if PREDNY_SENZOR.distance() <= 10 :
+                if T == 0:
+                    cas3.reset()
+                    print(cas3.time())
+                    T = 1
+                if PREDNY_SENZOR.distance() <= 10 or cas3.time() > 2000:
+                    T = 1
                     wait(10)
                     pohyb.drive(LOW_SPEED, 0)
                     wait(500)
                     radlica_closed()
-                    koniec += 1
+                    wait(250)
+                    koniec = 1
                     break
                 else:
                     print(PREDNY_SENZOR.distance())
@@ -139,6 +149,8 @@ def hladanie():
         pohyb.turn(45)
         pohyb.straight(40)
         hladanie_jadro()
+    else:
+        pohyb.straight(5)
 
 def kde_domov_muj():
     print("kde domov muj")
@@ -194,22 +206,31 @@ def inverted_S():
             
             wait(1000)
             pohyb.stop()
-            pohyb.straight(75)
+            pohyb.straight(60)
+            pohyb.drive(MAX_SPEED,  0)
+            wait(500)
+            pohyb.stop()
             x += 1
 
     pohyb.turn(65)
     pohyb.drive(-MAX_SPEED,  0)
-    
     wait(1000)
     pohyb.stop()
-    pohyb.straight(120)
+
+    pohyb.straight(100)
+    pohyb.drive(MAX_SPEED,  0)
+    wait(500)
+    pohyb.stop()
 
     pohyb.turn(-50)
     pohyb.drive(-MAX_SPEED,  0)
     
     wait(1000)
     pohyb.stop()
-    pohyb.straight(70)
+    pohyb.straight(60)
+    pohyb.drive(MAX_SPEED,  0)
+    wait(500)
+    pohyb.stop()
 
     pohyb.turn(-60)
     pohyb.drive(-MAX_SPEED,  0)
@@ -277,4 +298,4 @@ if __name__ == "__main__":
     main()
     
 
-#toto pisal dominik + adam <3
+# #toto pisal dominik + adam <3
