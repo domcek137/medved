@@ -239,6 +239,35 @@ def inverted_S():
     pohyb.drive(MAX_SPEED, 5)
 
     wait(5000)
+
+
+
+
+
+
+
+
+
+
+    #         wait(10)
+    #         pohyb.drive(MID_SPEED, 52 )
+    #         print(PRAVY_SENZOR.distance())
+    #     elif PRAVY_SENZOR.distance() < 250:
+    #         wait(10)
+    #         print(PRAVY_SENZOR.distance())
+    #         pohyb.drive(MID_SPEED, -5)
+    #         if LAVY_SENZOR.distance() > 400:
+    #             wait(10)
+    #             print(PRAVY_SENZOR.distance())
+    #             cas2.reset()
+    #             x = 1
+    #             print("mejbi hotovo")
+    # while x == 1:
+    #     if PRAVY_SENZOR.distance() < 100 and cas2.time() > 1000:
+    #         wait(10)
+    #         pohyb.drive(MAX_SPEED, 0)
+    #     else:
+    #         pohyb.drive(MID_SPEED, -52)
         
         
         
